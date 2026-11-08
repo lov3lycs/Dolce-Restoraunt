@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f6f2"><title>Dolce — меню ресторана</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header class="topbar">
+ <a class="brand" href="#"><span class="brand-mark">D</span><span><b id="brandName">DOLCE</b><small>RESTAURANT</small></span></a>
+ <div class="header-actions"><button class="icon-btn" id="ordersOpen" aria-label="Заказы"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8.5 12 4l7 4.5v10a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 18.5z"/><path d="M5 8.5 12 13l7-4.5M12 13v7"/></svg></button><button class="icon-btn cart-trigger" id="cartOpen" aria-label="Корзина"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.1 11.1a2 2 0 0 0 2 1.6h8.5a2 2 0 0 0 1.9-1.4L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg><i id="cartCount">0</i></button></div>
+</header>
+<main>
+ <section class="welcome welcome-light"><div class="welcome-copy"><span class="eyebrow">DOLCE · GOOD FOOD · GOOD MOOD</span><h1>Вкус, к которому<br><em>хочется возвращаться.</em></h1><p id="restaurantDesc">Любимые блюда, свежие ингредиенты и атмосфера, в которой хочется остаться подольше.</p><a class="welcome-cta" href="#categories">Смотреть меню <span class="cta-arrow" aria-hidden="true">→</span></a></div><div class="welcome-art" aria-label="Подача блюда в ресторане DOLCE">
+  <img src="./assets/dolce-hero-table.png" alt="Изысканная подача пасты в ресторане DOLCE">
+ </div></section>
+ <section class="search-row"><label class="search"><span>⌕</span><input id="searchInput" placeholder="Найти любимое блюдо..."></label><button id="aiOpen" class="ai-chip"><span class="ai-chip-icon" aria-hidden="true">✦</span><span class="ai-chip-copy"><strong>Спросить ИИ</strong></span></button></section>
+ <section class="category-section"><div class="section-title"><div><span class="eyebrow">НАШЕ МЕНЮ</span><h2>Выбирайте по вкусу</h2></div></div><div id="categories" class="categories"></div></section>
+ <section class="menu-section"><div class="section-title"><div><span class="eyebrow">DOLCE SELECTION</span><h2 id="menuTitle">Популярное</h2></div><span class="muted" id="productCount"></span></div><div id="products" class="product-grid"></div></section>
+ <section class="info-strip" aria-label="Наши преимущества">
+ <div class="info-item"><span class="info-icon">↗</span><span><b>Доставка</b><small>Заказ привезём по указанному адресу</small></span></div>
+ <div class="info-item"><span class="info-icon">✳</span><span><b>Свежие продукты</b><small>Готовим блюда после оформления заказа</small></span></div>
+</section>
+</main>
+
+<section class="about-restaurant" id="about-restaurant">
+ <div class="about-copy">
+  <span class="eyebrow">ИСТОРИЯ DOLCE</span>
+  <h2>Больше, чем<br><em>просто ресторан.</em></h2>
+  <p class="about-lead">История вкуса, гостеприимства и людей, которые любят своё дело.</p>
+  <p>В 2014 году DOLCE начинался с простой идеи: создавать блюда, ради которых хочется собираться вместе. Мы уделяем внимание каждому ингредиенту, бережно относимся к любимым рецептам и постоянно ищем новые сочетания.</p>
+  <p>Со временем небольшая идея превратилась в место встреч, тёплых разговоров и приятных открытий. Для нас каждый гость — часть этой истории. И каждый день мы продолжаем её вместе с вами.</p>
+  <div class="about-stats"><div><b>2014</b><span>год основания</span></div><div><b>Каждый день</b><span>встречаем гостей</span></div><div><b>10+</b><span>позиций в меню</span></div></div>
+  <small class="about-note">История и показатели представлены как концепция бренда и могут быть заменены на фактические данные ресторана.</small>
+ </div>
+ <div class="about-image" role="img" aria-label="Атмосфера ресторана"><div class="about-image-caption">DOLCE · GOOD FOOD · GOOD MOOD</div></div>
+</section>
+<section class="location-section" id="location">
+ <div class="location-heading"><div><span class="eyebrow">БУДЕМ РАДЫ ВАС ВИДЕТЬ</span><h2>Мы в центре Москвы</h2><p>Удобная отправная точка для встречи — исторический центр столицы.</p></div><a class="map-link" href="https://yandex.ru/maps/?text=Красная%20площадь%2C%20Москва" target="_blank" rel="noopener">Открыть карту ↗</a></div>
+ <div class="map-frame"><iframe title="Карта центра Москвы" src="https://yandex.ru/map-widget/v1/?text=Красная%20площадь%2C%20Москва&z=14" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+ <p class="map-disclaimer">Точная улица и номер дома ресторана пока не указаны. На карте показан ориентир в центре Москвы — район Красной площади, а не подтверждённый адрес DOLCE.</p>
+</section>
+
+<footer><div class="brand"><span class="brand-mark">D</span><span><b>DOLCE</b><small>RESTAURANT</small></span></div><p id="footerInfo">Вкусная еда, приготовленная с заботой.</p><small>© 2026 LVCS Commerce</small></footer>
+
+<div class="shade" id="shade"></div>
+<aside class="drawer" id="cartDrawer"><div class="drawer-head"><div><span class="eyebrow">ВАШ ВЫБОР</span><h2>Корзина</h2></div><button class="close" data-close>×</button></div><div id="cartItems" class="drawer-body"></div><div class="drawer-foot"><div class="total-line"><span>Итого</span><b id="cartTotal">0 ₽</b></div><button class="primary full" id="checkoutOpen">Перейти к оформлению →</button></div></aside>
+<aside class="drawer" id="ordersDrawer"><div class="drawer-head"><div><span class="eyebrow">ИСТОРИЯ</span><h2>Мои заказы</h2></div><button class="close" data-close>×</button></div><div id="ordersList" class="drawer-body"></div></aside>
+<div class="modal" id="checkoutModal"><div class="modal-card"><button class="close modal-x" data-close>×</button><span class="eyebrow">ПОСЛЕДНИЙ ШАГ</span><h2>Оформление заказа</h2><form id="checkoutForm"><label>Ваше имя<input name="customer_name" required minlength="2" placeholder="Как к вам обращаться?"></label><label>Телефон<input name="phone" required placeholder="+7 900 000-00-00"></label><label>Адрес доставки<input name="address" required placeholder="Улица, дом, квартира"></label><label>Промокод<input name="promo_code" placeholder="Если есть промокод"></label><label>Комментарий<textarea name="comment" rows="3" placeholder="Подъезд, домофон, пожелания..."></textarea></label><button class="primary full">Подтвердить заказ</button></form></div></div>
+<div class="modal" id="aiModal"><div class="modal-card ai-card"><button class="close modal-x" data-close>×</button><span class="eyebrow">DOLCE AI</span><h2>🤖 Ваш гастро-помощник</h2><p class="muted">Расскажите, что хочется — подберём блюда из меню.</p><div id="aiMessages" class="ai-messages"><div class="bubble bot">Привет! Что сегодня будем пробовать? Например: «Посоветуй сытный обед до 700 ₽».</div></div><form id="aiForm" class="ai-form"><input id="aiInput" placeholder="Напишите сообщение..." required><button class="primary ai-send" aria-label="Отправить"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 4 17 8-17 8 3-8zM7 12h14"/></svg></button></form></div></div>
+<div class="modal" id="successModal"><div class="modal-card success-card"><div class="success-icon">✓</div><h2>Заказ принят!</h2><p id="successText">Мы скоро свяжемся с вами для подтверждения.</p><button class="primary full" data-close>Отлично</button></div></div>
+<script src="./app.js"></script>
+</body></html>
