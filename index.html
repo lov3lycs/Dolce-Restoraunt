@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f8f4ed">
+  <title>Dolce — меню ресторана</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="icon-bag" viewBox="0 0 24 24"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></symbol>
+    <symbol id="icon-orders" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6m-6 4h6m-6 4h4"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+    <symbol id="icon-down" viewBox="0 0 24 24"><path d="M12 4v15m-6-6 6 6 6-6"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></symbol>
+    <symbol id="icon-sparkle" viewBox="0 0 24 24"><path d="M11 3c1.3 4.5 2.5 5.7 7 7-4.5 1.3-5.7 2.5-7 7-1.3-4.5-2.5-5.7-7-7 4.5-1.3 5.7-2.5 7-7Zm7 12v6m-3-3h6"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="icon-delivery" viewBox="0 0 24 24"><path d="M9 18h6M3 18H2V6h13v12m0-9h4l3 4v5h-2"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="18" r="2.5"/></symbol>
+    <symbol id="icon-leaf" viewBox="0 0 24 24"><path d="M20 4c-8 0-14 2-14 9a5 5 0 0 0 5 5c7 0 9-6 9-14ZM4 21l10-10"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  </svg>
+  <header class="topbar" data-overlay-inert>
+    <div class="shell topbar-inner">
+      <a class="brand" href="#top" aria-label="Dolce — на главную">
+        <span class="brand-mark" aria-hidden="true">D</span>
+        <span class="brand-copy"><b id="brandName">DOLCE</b><small>РЕСТОРАН</small></span>
+      </a>
+      <nav class="header-nav" aria-label="Разделы сайта">
+        <a href="#menu">Меню</a>
+        <a href="#about-restaurant">О ресторане</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" id="ordersOpen" type="button" aria-label="Мои заказы" aria-haspopup="dialog">
+          <svg class="icon" aria-hidden="true"><use href="#icon-orders"/></svg>
+        </button>
+        <button class="icon-btn cart-trigger" id="cartOpen" type="button" aria-label="Корзина" aria-haspopup="dialog">
+          <svg class="icon" aria-hidden="true"><use href="#icon-bag"/></svg>
+          <span id="cartCount" class="cart-count" hidden></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top" class="shell page" data-overlay-inert>
+    <section class="welcome" aria-labelledby="welcomeTitle">
+      <div class="welcome-copy">
+        <h1 id="welcomeTitle">Вкус, к которому <em>хочется возвращаться.</em></h1>
+        <p id="restaurantDesc">Любимые блюда, которые можно заказать с доставкой.</p>
+        <a class="welcome-cta" href="#menu">Смотреть меню
+          <svg class="icon" aria-hidden="true"><use href="#icon-down"/></svg>
+        </a>
+      </div>
+      <picture class="welcome-art">
+        <source media="(max-width: 700px)" srcset="./assets/dolce-hero-compact.webp 720w, ./assets/dolce-hero-table.webp 1600w" sizes="100vw">
+        <img src="./assets/dolce-hero-table.webp" alt="Паста с трюфелем на столе в ресторане Dolce" width="1600" height="800" fetchpriority="high">
+      </picture>
+    </section>
+
+    <section class="menu-section" id="menu" aria-labelledby="menuHeading">
+      <div class="section-title"><h2 id="menuHeading">Меню Dolce</h2></div>
+      <div class="search-row">
+        <label class="search">
+          <svg class="icon" aria-hidden="true"><use href="#icon-search"/></svg>
+          <span class="visually-hidden">Поиск по меню</span>
+          <input id="searchInput" type="search" placeholder="Найти блюдо" autocomplete="off">
+        </label>
+        <button type="button" id="aiOpen" class="ai-chip" aria-haspopup="dialog">
+          <svg class="icon" aria-hidden="true"><use href="#icon-sparkle"/></svg>
+          <span>Спросить ИИ</span>
+        </button>
+      </div>
+      <div id="categories" class="categories" role="group" aria-label="Категории меню"></div>
+      <div class="menu-subhead">
+        <h3 id="menuTitle">Все блюда</h3>
+        <span class="muted" id="productCount" aria-live="polite"></span>
+      </div>
+      <p id="menuStatus" class="menu-status" role="status">Загружаем меню…</p>
+      <div id="products" class="product-grid"></div>
+    </section>
+
+    <section class="info-strip" aria-label="Приготовление и доставка">
+      <div class="info-item">
+        <span class="info-icon"><svg class="icon" aria-hidden="true"><use href="#icon-delivery"/></svg></span>
+        <div><b>Доставка до двери</b><p>Привезём заказ по указанному адресу.</p></div>
+      </div>
+      <div class="info-item">
+        <span class="info-icon"><svg class="icon" aria-hidden="true"><use href="#icon-leaf"/></svg></span>
+        <div><b>Готовим на заказ</b><p>Начинаем готовить после оформления.</p></div>
+      </div>
+    </section>
+
+    <section class="about-restaurant" id="about-restaurant" aria-labelledby="aboutTitle">
+      <div class="about-image">
+        <img src="./assets/dolce-interior.webp" alt="Обеденный зал Dolce с тёплым освещением" width="1200" height="768" loading="lazy" decoding="async">
+      </div>
+      <div class="about-copy">
+        <h2 id="aboutTitle">О ресторане</h2>
+        <p>В Dolce мы готовим блюда, ради которых хочется собираться вместе. Уделяем внимание каждому ингредиенту, бережно относимся к любимым рецептам и ищем новые сочетания.</p>
+        <p id="footerInfo" class="restaurant-contacts"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" data-overlay-inert>
+    <div class="shell footer-inner">
+      <a class="brand" href="#top" aria-label="Dolce — на главную">
+        <span class="brand-mark" aria-hidden="true">D</span>
+        <span class="brand-copy"><b id="footerBrandName">DOLCE</b><small>РЕСТОРАН</small></span>
+      </a>
+      <a href="#menu">Вернуться к меню <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></a>
+    </div>
+  </footer>
+
+  <button class="cart-bar" id="cartBar" type="button" aria-haspopup="dialog" data-overlay-inert hidden>
+    <svg class="icon" aria-hidden="true"><use href="#icon-bag"/></svg>
+    <span>Корзина <span id="cartBarCount"></span></span>
+    <b id="cartBarTotal"></b>
+  </button>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <div class="shade" id="shade" aria-hidden="true"></div>
+
+  <aside class="drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartHeading" aria-hidden="true" tabindex="-1" inert>
+    <div class="drawer-head">
+      <h2 id="cartHeading">Корзина</h2>
+      <button class="close" type="button" data-close aria-label="Закрыть корзину"><svg class="icon" aria-hidden="true"><use href="#icon-close"/></svg></button>
+    </div>
+    <div id="cartItems" class="drawer-body"></div>
+    <div class="drawer-foot">
+      <p id="cartDelivery" class="muted" hidden></p>
+      <p id="cartNotice" class="muted" hidden></p>
+      <div class="total-line"><span>Итого</span><b id="cartTotal">0 ₽</b></div>
+      <button class="primary full" id="checkoutOpen" type="button">Перейти к оформлению <svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+    </div>
+  </aside>
+
+  <aside class="drawer" id="ordersDrawer" role="dialog" aria-modal="true" aria-labelledby="ordersHeading" aria-hidden="true" tabindex="-1" inert>
+    <div class="drawer-head">
+      <h2 id="ordersHeading">Мои заказы</h2>
+      <button class="close" type="button" data-close aria-label="Закрыть историю заказов"><svg class="icon" aria-hidden="true"><use href="#icon-close"/></svg></button>
+    </div>
+    <div id="ordersList" class="drawer-body" aria-live="polite"></div>
+  </aside>
+
+  <div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutHeading" aria-hidden="true" tabindex="-1" inert>
+    <div class="modal-card">
+      <div class="drawer-head">
+        <h2 id="checkoutHeading">Оформление заказа</h2>
+        <button class="close" type="button" data-close aria-label="Закрыть оформление"><svg class="icon" aria-hidden="true"><use href="#icon-close"/></svg></button>
+      </div>
+      <form id="checkoutForm">
+        <label>Ваше имя<input name="customer_name" autocomplete="name" required minlength="2" maxlength="100" placeholder="Как к вам обращаться?"></label>
+        <label>Телефон<input type="tel" name="phone" autocomplete="tel" required minlength="5" maxlength="40" placeholder="+7 900 000-00-00"></label>
+        <label>Адрес доставки<input name="address" autocomplete="street-address" required minlength="3" maxlength="300" placeholder="Улица, дом, квартира"></label>
+        <label>Промокод<input name="promo_code" placeholder="Если есть промокод"></label>
+        <label>Комментарий<textarea name="comment" rows="2" placeholder="Подъезд, домофон, пожелания"></textarea></label>
+        <p id="checkoutError" class="form-error" role="alert" hidden></p>
+        <button class="primary full" type="submit">Подтвердить заказ</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="aiModal" role="dialog" aria-modal="true" aria-labelledby="aiHeading" aria-hidden="true" tabindex="-1" inert>
+    <div class="modal-card ai-card">
+      <div class="drawer-head">
+        <h2 id="aiHeading">Помощник по меню</h2>
+        <button class="close" type="button" data-close aria-label="Закрыть помощника"><svg class="icon" aria-hidden="true"><use href="#icon-close"/></svg></button>
+      </div>
+      <p id="aiNotice" class="form-error" role="status" hidden></p>
+      <div id="aiMessages" class="ai-messages" role="log" aria-label="Сообщения помощника">
+        <div class="bubble bot">Что вам хочется сегодня? Спросите, например: «Что можно заказать на обед до 700 ₽?»</div>
+      </div>
+      <form id="aiForm" class="ai-form">
+        <label class="visually-hidden" for="aiInput">Сообщение помощнику</label>
+        <input id="aiInput" placeholder="Спросите о блюдах" maxlength="1500" required>
+        <button class="primary" type="submit" aria-label="Отправить сообщение"><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg></button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="successModal" role="dialog" aria-modal="true" aria-labelledby="successHeading" aria-hidden="true" tabindex="-1" inert>
+    <div class="modal-card success-card">
+      <span class="success-icon"><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg></span>
+      <h2 id="successHeading">Заказ принят</h2>
+      <p id="successText">Мы скоро свяжемся с вами для подтверждения.</p>
+      <button class="primary full" type="button" data-close>Вернуться к меню</button>
+    </div>
+  </div>
+</body>
+</html>
